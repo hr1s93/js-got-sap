@@ -146,6 +146,11 @@ async function showHouseMembers(house) {
   } catch (error) {
     console.error(error);
   }
+
+  const backBtn = document.createElement("button");
+  backBtn.innerHTML = "Back to Houses";
+  backBtn.addEventListener("click", showHouses);
+  mainContent.appendChild(backBtn);
 }
 
 function showPersonDetails(person) {
@@ -162,7 +167,11 @@ function showPersonDetails(person) {
 
   for (let i = 0; i < person.quotes.length; i++) {
     const personQuotes = document.createElement("p");
-    personQuotes.innerHTML = `-"${person.quotes[i]}"`;
+    personQuotes.innerHTML = `"${person.quotes[i]}"`;
     mainContent.appendChild(personQuotes);
   }
+  const backBtn = document.createElement("button");
+  backBtn.innerHTML = "Back to Persons";
+  backBtn.addEventListener("click", showPersons);
+  mainContent.appendChild(backBtn);
 }
