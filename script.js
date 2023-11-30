@@ -62,7 +62,7 @@ async function showPersons() {
     }
 
     const data = await response.json();
-
+    console.log(data);
     const personsH1 = document.createElement("h1");
     mainContent.appendChild(personsH1);
 
@@ -70,11 +70,12 @@ async function showPersons() {
       const personItem = document.createElement("h2");
       personItem.innerHTML = data[i].name;
 
+      personItem.addEventListener("click", () => {});
+
+      personsH1.innerHTML = "Persons: ";
       personItem.addEventListener("click", () => {
         showPersonDetails(data[i]);
       });
-
-      personsH1.innerHTML = "Persons: ";
       mainContent.appendChild(personItem);
     }
   } catch (error) {
@@ -147,43 +148,21 @@ async function showHouseMembers(house) {
   }
 }
 
-async function showPersonDetails() {
+function showPersonDetails(person) {
   mainContent.innerHTML = "";
   mainContent.style.display = "block";
 
-  try {
-    const response = await fetch(
-      `https://api.gameofthronesquotes.xyz/v1/characters/`
-    );
+  const personDetailsH1 = document.createElement("h3");
+  personDetailsH1.innerHTML = `${person.name}`;
+  mainContent.appendChild(personDetailsH1);
 
-    if (!response.ok) {
-      throw new Error(`Error: ${response.status}`);
-    }
+  const personHouse = document.createElement("h3");
+  personHouse.innerHTML = `${person.house.name}`;
+  mainContent.appendChild(personHouse);
 
-    const personDetails = await response.json();
-
-    for (let i = 0; i < personDetails.length; i++) {
-      const detailsContainer = document.createElement("div");
-      const personName = document.createElement("h3");
-      const personHouse = document.createElement("h3");
-      const personQuotes = document.createElement("p");
-
-      personName.innerHTML = ` ${personDetails[i].name}`;
-      personHouse.innerHTML = ` ${personDetails[i].house.name}`;
-
-      personDetails[i].quotes.forEach((quote) => {
-        const quoteItem = document.createElement("li");
-        quoteItem.innerHTML = `-"${quote}"`;
-        personQuotes.appendChild(quoteItem);
-      });
-
-      detailsContainer.appendChild(personName);
-      detailsContainer.appendChild(personHouse);
-      detailsContainer.appendChild(personQuotes);
-
-      mainContent.appendChild(detailsContainer);
-    }
-  } catch (error) {
-    console.error(error);
+  for (let i = 0; i < person.quotes.length; i++) {
+    const personQuotes = document.createElement("p");
+    personQuotes.innerHTML = `-"${person.quotes[i]}"`;
+    mainContent.appendChild(personQuotes);
   }
 }
